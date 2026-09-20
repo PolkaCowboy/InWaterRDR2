@@ -10,7 +10,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\script.cpp" />
@@ -19,7 +18,6 @@
     <ClCompile Include="src\config.cpp" />
     <ClCompile Include="src\paths.cpp" />
   </ItemGroup>
-
   <ItemGroup>
     <ClInclude Include="src\script.h" />
     <ClInclude Include="src\keyboard.h" />
@@ -35,7 +33,6 @@
     <ClInclude Include="inc\enums.h" />
     <ClInclude Include="inc\main.h" />
   </ItemGroup>
-
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1581056B-A0ED-47C0-BFDE-9A32BCB89350}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -43,9 +40,7 @@
     <ProjectName>InWater</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-
   <PropertyGroup Label="Configuration">
     <!-- A .asi is just a DLL with a different extension. -->
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -53,22 +48,17 @@
     <!-- MultiByte, not Unicode: every native takes char*, never wchar_t*. -->
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-
   <PropertyGroup Label="UserMacros">
     <!--
       Set this to your RDR2 folder to copy the built .asi there automatically,
@@ -78,16 +68,15 @@
       the copy only succeeds if Visual Studio is running elevated; wiring it up
       unconditionally would give you a build that fails for a confusing reason.
     -->
-    <RDR2GameDir></RDR2GameDir>
+    <RDR2GameDir>
+    </RDR2GameDir>
   </PropertyGroup>
-
   <PropertyGroup>
     <LinkIncremental Condition="'$(Configuration)'=='Release'">false</LinkIncremental>
     <TargetExt>.asi</TargetExt>
     <OutDir>bin\$(Configuration)\</OutDir>
     <IntDir>tmp\$(Configuration)\</IntDir>
   </PropertyGroup>
-
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -107,7 +96,6 @@
       <Message Condition="'$(RDR2GameDir)' != ''">Copying $(TargetFileName) to $(RDR2GameDir)</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -118,7 +106,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
@@ -132,7 +119,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xcopy /y /d "$(TargetPath)" "C:\Program Files\Epic Games\RedDeadRedemption2\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
